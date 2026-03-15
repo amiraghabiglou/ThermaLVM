@@ -1,0 +1,46 @@
+name: ThermaLVM CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+
+    - name: Install Linting & Test Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install ruff pytest
+
+    - name: Lint with Ruff
+      run: |
+        # Enforce PEP 8 standards across the codebase
+        ruff check src/
+
+    - name: Run Deterministic Unit Tests
+      run: |
+        # In the future, this will execute `pytest tests/` to validate the RAG 
+        # and compliance rule engine logic using mocked VLM JSON responses.
+        echo "Placeholder: Executing Rule Engine tests."
+
+  build-containers:
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Test API Container Build
+      run: docker build -t thermalvm-api -f docker/Dockerfile.api .
+
+    - name: Test Frontend Container Build
+      run: docker build -t thermalvm-frontend -f docker/Dockerfile.frontend .

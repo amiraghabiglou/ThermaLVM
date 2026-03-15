@@ -1,0 +1,25 @@
+# Python Artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# MacOS Artifacts
+.DS_Store
+
+# Model Weights (Strictly ignored)
+models/*.gguf
+models/*.pt
+models/*.bin
+models/*.safetensors
+
+# LanceDB Vector Store (Strictly ignored)
+data/vector_store/*
+!data/vector_store/.gitkeep
+
+# Regulatory PDFs and Test Images (Strictly ignored)
+data/regulations/*.pdf
+!data/regulations/.gitkeep
+data/sample_images/*
+!data/sample_images/.gitkeep

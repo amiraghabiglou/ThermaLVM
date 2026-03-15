@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # 1. The AI Engineer's Focus: FastAPI + LanceDB + Rule Engine
+  api_gateway:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src/api:/app/src/api
+      - ./data/vector_store:/app/data/vector_store  # Persistent LanceDB storage
+    environment:
+      - VLM_SERVER_URL=http://vlm_server:8080/v1
+    depends_on:
+      - vlm_server
+
+  # 2. The Edge Inference Simulator: llama.cpp serving Qwen2-VL GGUF
+  vlm_server:
+    image: ghcr.io/ggerganov/llama.cpp:server
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./models:/models
+    command: >
+      -m /models/Qwen2-VL-7B-Instruct-Q4_K_M.gguf
+      --host 0.0.0.0
+      --port 8080
+      -c 4096
+      --mmproj /models/mmproj-Qwen2-VL-7B-Instruct-f16.gguf
+
+  # 3. The Lean UI: Gradio/Streamlit
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./src/frontend:/app/src/frontend
+    environment:
+      - API_URL=http://api_gateway:8000
+    depends_on:
+      - api_gateway

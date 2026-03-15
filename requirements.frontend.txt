@@ -1,0 +1,4 @@
+gradio==4.12.0
+requests==2.31.0
+pandas==2.1.4
+Pillow==10.1.0

@@ -1,0 +1,22 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Install basic build dependencies for Pillow and Pandas C-extensions
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install frontend dependencies
+COPY requirements.frontend.txt .
+RUN pip install --no-cache-dir -r requirements.frontend.txt
+
+# Copy application code
+COPY src/frontend /app/src/frontend
+
+# Explicitly tell Gradio to bind to all network interfaces within the container
+ENV GRADIO_SERVER_NAME="0.0.0.0"
+ENV GRADIO_SERVER_PORT="8501"
+
+# Launch the UI
+CMD ["python", "src/frontend/app.py"]
