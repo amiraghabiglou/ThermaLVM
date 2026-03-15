@@ -1,5 +1,4 @@
 import os
-import re
 import fitz  # PyMuPDF
 import lancedb
 from lancedb.pydantic import Vector, LanceModel

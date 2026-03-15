@@ -1,6 +1,6 @@
 import os
 import base64
-from typing import List, Literal, Optional
+from typing import List, Literal
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel, Field
 import lancedb

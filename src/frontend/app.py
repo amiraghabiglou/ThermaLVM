@@ -3,7 +3,7 @@ import io
 import requests
 import pandas as pd
 import gradio as gr
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
 # ---------------------------------------------------------
 # 1. Configuration
