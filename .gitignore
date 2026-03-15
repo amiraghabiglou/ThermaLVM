@@ -23,3 +23,6 @@ data/regulations/*.pdf
 !data/regulations/.gitkeep
 data/sample_images/*
 !data/sample_images/.gitkeep
+
+# Testing
+.pytest_cache/

@@ -28,10 +28,14 @@ jobs:
         ruff check src/
 
     - name: Run Deterministic Unit Tests
+      env:
+        PYTHONPATH: .
       run: |
-        # In the future, this will execute `pytest tests/` to validate the RAG 
-        # and compliance rule engine logic using mocked VLM JSON responses.
-        echo "Placeholder: Executing Rule Engine tests."
+        # Install test-specific routing dependencies
+        pip install httpx
+        
+        # Execute the test suite
+        pytest tests/ -v
 
   build-containers:
     runs-on: ubuntu-latest
