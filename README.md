@@ -56,10 +56,10 @@ This system requires a quantized language model and a high-fidelity vision proje
 pip install -U "huggingface_hub[cli]"
 
 # Download the 4-bit quantized Qwen2-VL-7B reasoning engine
-huggingface-cli download bartowski/Qwen2-VL-7B-Instruct-GGUF Qwen2-VL-7B-Instruct-Q4_K_M.gguf --local-dir models/
+hf download bartowski/Qwen2-VL-7B-Instruct-GGUF Qwen2-VL-7B-Instruct-Q4_K_M.gguf --local-dir models/
 
 # Download the fp16 multimodal vision projector
-huggingface-cli download bartowski/Qwen2-VL-7B-Instruct-GGUF mmproj-Qwen2-VL-7B-Instruct-f16.gguf --local-dir models/
+hf download bartowski/Qwen2-VL-7B-Instruct-GGUF mmproj-Qwen2-VL-7B-Instruct-f16.gguf --local-dir models/
 ```
 ### 2. Initialize the Knowledge Base (RAG)
 Place your regulatory PDFs (e.g., UK Part L) into data/regulations/. Then, build the LanceDB vector store locally.

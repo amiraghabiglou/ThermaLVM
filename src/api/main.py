@@ -43,8 +43,8 @@ app = FastAPI(title="ThermaLVM API", version="1.0.0")
 VLM_SERVER_URL = os.getenv("VLM_SERVER_URL", "http://vlm_server:8080/v1")
 client = OpenAI(base_url=VLM_SERVER_URL, api_key="sk-no-key-required")
 
-# Initialize local LanceDB connection
-DB_PATH = "/app/data/vector_store"
+# Initialize local LanceDB connection via environment variable
+DB_PATH = os.getenv("DB_PATH", "/app/data/vector_store")
 db = lancedb.connect(DB_PATH)
 
 # Ensure the regulations table exists (placeholder for the RAG ingestion pipeline)
