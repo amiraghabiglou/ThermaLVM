@@ -31,7 +31,10 @@ jobs:
       env:
         PYTHONPATH: .
       run: |
+        # Install API requirements to ensure correct dependency resolution
         pip install -r requirements.api.txt
+        
+        # Install test-specific routing dependencies
         pip install httpx
         
         # Execute the test suite
