@@ -36,7 +36,7 @@ jobs:
         pip install -r requirements.api.txt
         
         # Install test-specific routing dependencies
-        pip install httpx
+        pip install "httpx<0.28.0"
         
         # Execute the test suite
         pytest tests/ -v
