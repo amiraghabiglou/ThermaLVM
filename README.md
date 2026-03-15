@@ -15,12 +15,34 @@ This pipeline strictly decouples the VLM inference from the application logic to
 
 This repository is configured to run locally using Docker and Metal-accelerated inference.
 
+## 📁 Repository Structure: ThermaLVM
+```text
+.
+├── .github/workflows/
+│   └── ci.yml                     # Future-proofing: CI/CD for testing the API
+├── data/
+│   ├── sample_images/             # RGB and Thermal pairs for testing
+│   └── regulations/               # PDFs/Text of energy standards for RAG
+├── docker/
+│   ├── Dockerfile.frontend
+│   ├── Dockerfile.api
+│   └── Dockerfile.vllm            # Environment for Qwen2-VL/llama.cpp
+├── src/
+│   ├── api/                       # FastAPI gateway (handles requests, orchestrates RAG)
+│   ├── frontend/                  # Gradio/Streamlit UI for dual-image upload
+│   └── rag/                       # Vector DB ingestion and retrieval logic
+├── .gitignore
+├── docker-compose.yml             # Local deployment orchestration
+├── requirements.txt
+└── README.md
+```
+
 ### 1. Boot the Infrastructure
 ```bash
 docker-compose up -d --build
 ```
 
-2. Services Available
+### 2. Services Available
 Web Interface: http://localhost:8501
 
 API Gateway: http://localhost:8000
