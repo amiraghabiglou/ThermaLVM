@@ -91,4 +91,4 @@ docker-compose up -d --build
 
 - API Gateway: http://localhost:8001/docs (Swagger UI)
 
-- VLM Inference Server: http://localhost:8080/v1 (OpenAI-Compatible Endpoint)
+- VLM Inference Server: http://localhost:8080/ (OpenAI-Compatible Endpoint)
