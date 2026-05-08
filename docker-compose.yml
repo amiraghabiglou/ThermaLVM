@@ -28,7 +28,7 @@ services:
       -m /models/Qwen2-VL-7B-Instruct-Q4_K_M.gguf
       --host 0.0.0.0
       --port 8080
-      -c 4096
+      -c 8192
       --mmproj /models/mmproj-Qwen2-VL-7B-Instruct-f16.gguf
 
   # 3. The Lean UI: Gradio/Streamlit
