@@ -12,10 +12,10 @@ import json
 # 1. The Strict Contract (Single Source of Truth)
 # ---------------------------------------------------------
 class BoundingBox(BaseModel):
-    x_min: float = Field(ge=0.0, le=1.0)
-    y_min: float = Field(ge=0.0, le=1.0)
-    x_max: float = Field(ge=0.0, le=1.0)
-    y_max: float = Field(ge=0.0, le=1.0)
+    x_min: int
+    y_min: int
+    x_max: int
+    y_max: int
 
 
 class ThermalDefect(BaseModel):
@@ -104,7 +104,7 @@ async def run_thermal_audit(
             messages=[
                 {
                     "role": "system",
-                    "content": "You are an expert industrial thermal auditor. Analyze the provided aligned RGB and Thermal images. Identify thermal defects, estimate the temperature delta, and provide normalized bounding boxes. You must strictly adhere to the provided JSON schema."
+                    "content": "You are an expert industrial thermal auditor. Analyze the provided aligned RGB and Thermal images. Identify thermal defects, estimate the temperature delta, and provide bounding boxes. CRITICAL: You must use absolute integer coordinates on a 0 to 1000 scale for all bounding boxes. Strictly adhere to the provided JSON schema."
                 },
                 {
                     "role": "user",
@@ -137,10 +137,18 @@ async def run_thermal_audit(
             # Deterministic compliance check
             is_compliant = defect.delta_t <= reg_data["max_allowed_delta_t"]
 
+            # Translation Layer: Convert 0-1000 scale to 0.0-1.0 scale for the frontend
+            normalized_box = {
+                "x_min": max(0.0, min(1.0, defect.bounding_box.x_min / 1000.0)),
+                "y_min": max(0.0, min(1.0, defect.bounding_box.y_min / 1000.0)),
+                "x_max": max(0.0, min(1.0, defect.bounding_box.x_max / 1000.0)),
+                "y_max": max(0.0, min(1.0, defect.bounding_box.y_max / 1000.0))
+            }
+
             final_report.append({
                 "defect": defect.defect_type,
                 "detected_delta_t": defect.delta_t,
-                "bounding_box": defect.bounding_box.model_dump(),
+                "bounding_box": normalized_box,  # Inject the translated box here
                 "regulation_threshold": reg_data["max_allowed_delta_t"],
                 "regulation_code": reg_data["code_ref"],
                 "compliance_status": "PASS" if is_compliant else "FAIL"

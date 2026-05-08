@@ -53,6 +53,10 @@ def run_audit(rgb_img: Image.Image, thermal_img: Image.Image):
     if rgb_img is None or thermal_img is None:
         return None, pd.DataFrame([{"Error": "Both RGB and Thermal images are required."}])
 
+    # Resize images to reduce token count and drastically speed up VLM inference
+    max_size = (1024, 1024)
+    rgb_img.thumbnail(max_size, Image.Resampling.LANCZOS)
+    thermal_img.thumbnail(max_size, Image.Resampling.LANCZOS)
     # Convert PIL Images to bytes for the multipart/form-data request
     rgb_byte_arr = io.BytesIO()
     rgb_img.save(rgb_byte_arr, format='JPEG')
@@ -69,7 +73,7 @@ def run_audit(rgb_img: Image.Image, thermal_img: Image.Image):
                 "rgb_image": ("rgb.jpg", rgb_bytes, "image/jpeg"),
                 "thermal_image": ("thermal.jpg", thermal_bytes, "image/jpeg")
             },
-            timeout=60  # VLM inference can take a moment
+            timeout=300  # VLM inference can take a moment
         )
 
         if response.status_code != 200:

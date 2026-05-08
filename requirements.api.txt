@@ -5,3 +5,4 @@ pydantic==2.5.2
 openai==1.55.3
 outlines==0.0.27
 python-multipart==0.0.9
+pandas==2.1.4
