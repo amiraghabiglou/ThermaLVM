@@ -64,6 +64,13 @@ hf download bartowski/Qwen2-VL-7B-Instruct-GGUF mmproj-Qwen2-VL-7B-Instruct-f16.
 ### 2. Initialize the Knowledge Base (RAG)
 Place your regulatory PDFs (e.g., UK Part L) into data/regulations/. Then, build the LanceDB vector store locally.
 
+**Where to get the regulatory data:**
+
+For this pipeline, download the official **UK Building Regulations Approved Document L (Conservation of fuel and power)**. 
+1. Go to the UK Government repository: [Approved Document L - GOV.UK](https://www.gov.uk/government/publications/conservation-of-fuel-and-power-approved-document-l)
+2. Download **Volume 1: Dwellings** and **Volume 2: Buildings other than dwellings** as PDFs.
+3. Place these downloaded `.pdf` files directly into your local `data/regulations/` directory before running the ingestion script.
+
 ```bash
 # Install local ingestion dependencies
 pip install -r requirements.rag.txt
@@ -80,8 +87,8 @@ docker-compose up -d --build
 
 
 ### 4. Services Available
-- Web Interface: http://localhost:8501 (Primary Entry Point)
+- Web Interface: http://localhost:8502 (Primary Entry Point)
 
-- API Gateway: http://localhost:8000/docs (Swagger UI)
+- API Gateway: http://localhost:8001/docs (Swagger UI)
 
 - VLM Inference Server: http://localhost:8080/v1 (OpenAI-Compatible Endpoint)

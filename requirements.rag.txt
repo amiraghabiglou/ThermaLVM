@@ -1,4 +1,4 @@
 pymupdf==1.23.8
-sentence-transformers==2.2.2
+sentence-transformers==2.6.1
 lancedb==0.5.0
 pydantic==2.5.2

@@ -7,8 +7,8 @@ from sentence_transformers import SentenceTransformer
 # ---------------------------------------------------------
 # 1. Configuration & Schema
 # ---------------------------------------------------------
-DB_PATH = "/app/data/vector_store"
-PDF_DIR = "/app/data/regulations"
+DB_PATH = os.getenv("DB_PATH", "./data/vector_store")
+PDF_DIR = os.getenv("PDF_DIR", "./data/regulations")
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
 
 # Initialize the embedding model locally (CPU/Edge friendly)
@@ -44,7 +44,7 @@ def parse_and_chunk_pdf(pdf_path: str) -> list[dict]:
     doc = fitz.open(pdf_path)
     chunks = []
 
-    doc_name = os.basename(pdf_path).replace(".pdf", "")
+    doc_name = os.path.basename(pdf_path).replace(".pdf", "")
 
     for page_num in range(len(doc)):
         page = doc[page_num]

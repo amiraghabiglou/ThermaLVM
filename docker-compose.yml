@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile.api
     ports:
-      - "8000:8000"
+      - "8001:8000"
     volumes:
       - ./src/api:/app/src/api
       - ./data/vector_store:/app/data/vector_store  # Persistent LanceDB storage
@@ -18,7 +18,8 @@ services:
 
   # 2. The Edge Inference Simulator: llama.cpp serving Qwen2-VL GGUF
   vlm_server:
-    image: ghcr.io/ggerganov/llama.cpp:server
+    image: ghcr.io/ggml-org/llama.cpp:server
+    platform: linux/arm64
     ports:
       - "8080:8080"
     volumes:
@@ -36,7 +37,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile.frontend
     ports:
-      - "8501:8501"
+      - "8502:8501"
     volumes:
       - ./src/frontend:/app/src/frontend
     environment:
