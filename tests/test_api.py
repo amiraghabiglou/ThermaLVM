@@ -37,12 +37,12 @@ def test_audit_compliance_logic(mock_retrieve_regulation, mock_vlm_create):
             {
                 "defect_type": "roof_heat_loss",
                 "delta_t": 4.0,
-                "bounding_box": {"x_min": 0.1, "y_min": 0.1, "x_max": 0.2, "y_max": 0.2}
+                "bounding_box": {"x_min": 100, "y_min": 100, "x_max": 200, "y_max": 200}
             },
             {
                 "defect_type": "roof_heat_loss",
                 "delta_t": 7.5,
-                "bounding_box": {"x_min": 0.5, "y_min": 0.5, "x_max": 0.6, "y_max": 0.6}
+                "bounding_box": {"x_min": 500, "y_min": 500, "x_max": 600, "y_max": 600}
             }
         ]
     }
