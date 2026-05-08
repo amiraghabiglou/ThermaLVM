@@ -49,13 +49,18 @@ db = lancedb.connect(DB_PATH)
 
 # Ensure the regulations table exists (placeholder for the RAG ingestion pipeline)
 if "regulations" not in db.table_names():
-    # In a real scenario, this is populated by your RAG ingestion script
-    schema = lancedb.pydantic.pydantic_to_schema(BaseModel)  # Simplified
+    # In a real scenario, this is populated by RAG ingestion script
+    schema = lancedb.pydantic.pydantic_to_schema(BaseModel)
     db.create_table("regulations", data=[
         {"vector": [0.1] * 384, "defect_type": "roof_heat_loss", "max_allowed_delta_t": 5.0,
          "code_ref": "Part L - 4.1"},
         {"vector": [0.2] * 384, "defect_type": "window_seal_failure", "max_allowed_delta_t": 3.0,
-         "code_ref": "Part L - 4.3"}
+         "code_ref": "Part L - 4.3"},
+        {"vector": [0.3] * 384, "defect_type": "wall_insulation_gap", "max_allowed_delta_t": 4.5,
+         "code_ref": "Part L - 4.4"},
+        {"vector": [0.4] * 384, "defect_type": "hvac_exhaust_anomaly", "max_allowed_delta_t": 10.0,
+         "code_ref": "Part F - 2.1"},
+        {"vector": [0.5] * 384, "defect_type": "thermal_bridge", "max_allowed_delta_t": 2.5, "code_ref": "Part L - 4.6"}
     ])
 
 
@@ -70,7 +75,7 @@ def encode_image(image_bytes: bytes) -> str:
 def retrieve_regulation(defect_type: str) -> dict:
     """Mock RAG retrieval: Fetches regulatory thresholds based on defect type."""
     table = db.open_table("regulations")
-    # In a production RAG, you embed the query and use table.search(vector).
+    # In a production RAG, we embed the query and use table.search(vector).
     # Here, we do a deterministic metadata filter for speed and accuracy.
     results = table.search().where(f"defect_type = '{defect_type}'").limit(1).to_pandas()
     if results.empty:
